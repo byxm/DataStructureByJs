@@ -1,11 +1,9 @@
 /*
- * @Author: your name
- * @Date: 2019-11-24 20:50:48
- * @LastEditTime: 2019-11-24 21:48:55
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /DataStructure/src/Stack/leetCode.ts
+ * @Date: 2019-11-24 21:54:08
+ * @LastEditors: 
+ * @LastEditTime: 2019-11-30 21:01:17
  */
+
 import Stack from './Stack';
 
 const stack = new Stack();
@@ -37,4 +35,25 @@ function isValid(str: string): boolean {
     return stack.isEmpty();
 }
 
-console.log(isValid('()([)[]'));
+// console.log(isValid('()([)[]'));
+
+/**
+ * @description: 10进制转二进制
+ */
+function dividedBy2(intger) {
+    const binary = [];
+    while(intger > 0) {
+        const res = Math.floor(intger % 2)
+        stack.push(res);
+        intger = Math.floor(intger / 2);
+    }
+    console.log(stack.toString(), stack.getSize());
+    const length = stack.getSize();
+    for(let i = 0; i < length; i++) {
+        binary.push(stack.pop());
+    }
+    return binary.join('');
+}
+
+console.log(dividedBy2(17777));
+

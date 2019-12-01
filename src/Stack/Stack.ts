@@ -1,3 +1,8 @@
+/*
+ * @Date: 2019-11-24 21:54:08
+ * @LastEditors: 
+ * @LastEditTime: 2019-11-30 22:06:30
+ */
 import { IStack } from './interface';
 
 class Stack<T> implements IStack<T> {
