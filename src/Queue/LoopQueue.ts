@@ -1,7 +1,7 @@
 /*
  * @Date: 2019-11-30 22:08:53
  * @LastEditors:
- * @LastEditTime: 2019-12-01 15:18:37
+ * @LastEditTime: 2019-12-07 21:56:48
  */
 import { IQueue } from './interface';
 
