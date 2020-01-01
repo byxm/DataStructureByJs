@@ -1,7 +1,7 @@
 /*
  * @Describtion: 二分搜索树typescripts实现
  * @Date: 2019-12-16 22:01:57
- * @LastEditTime : 2020-01-01 23:48:12
+ * @LastEditTime : 2020-01-02 09:31:21
  */
 
 import LinkListQue from './LinkedListQueue';
@@ -264,12 +264,11 @@ export default class BST<E> {
                 this.size--;
                 return leftNode;
             }
-            const successor: BrNode<E> = this.getMinMum(node);
+            const successor: BrNode<E> = this.getMinMum(node.right);
             successor.right = this.removeMinReal(node.right);
             successor.left = node.left;
             node.left = null;
             node.right = null;
-            console.log('successor.right', successor);
             return successor;
         }
     }

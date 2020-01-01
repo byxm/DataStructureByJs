@@ -1,7 +1,7 @@
 /*
  * @Describtion: 
  * @Date: 2019-12-31 13:53:23
- * @LastEditTime : 2020-01-01 23:26:31
+ * @LastEditTime : 2020-01-02 09:30:55
  */
 
 import BST from './BST';
@@ -40,4 +40,4 @@ console.log('=======');
 // bst.preOrder();
 
 bst.remove(3);
-// bst.preOrder();
+bst.preOrder();
