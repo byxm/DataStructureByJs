@@ -1,10 +1,8 @@
 /*
  * @Describtion: 链表循环队列
  * @Date: 2019-12-08 14:33:50
- * @LastEditTime : 2020-01-01 17:13:25
+ * @LastEditTime : 2020-01-01 17:40:53
  */
-import { ILinkedListQueue } from './interface';
-
 
 class LinkedNode<T> {
     element: T;
@@ -20,7 +18,7 @@ class LinkedNode<T> {
     }
 }
 
-class LinkedListQueue<T> implements ILinkedListQueue<T> {
+class LinkedListQueue<T> {
     
     private head: LinkedNode<T>;
     private tail: LinkedNode<T>;
@@ -46,7 +44,6 @@ class LinkedListQueue<T> implements ILinkedListQueue<T> {
      * @description: 入队操作，在循环队列头结点和尾结点操作。如果尾结点为空说明整个队列都为空
      */    
     enqueue(element: T): void {
-        console.log('===', element, this.tail, this.head)
         if(this.tail == null) {
             this.tail = new LinkedNode(element);
             this.head = this.tail;
@@ -54,6 +51,8 @@ class LinkedListQueue<T> implements ILinkedListQueue<T> {
             this.tail.next = new LinkedNode(element);
             this.tail = this.tail.next;
         }
+        // console.log('===', element, this.tail, this.head)
+
         this.size++;
     }
 
@@ -66,7 +65,6 @@ class LinkedListQueue<T> implements ILinkedListQueue<T> {
         }
         const front: LinkedNode<T> = this.head;
         // 取出第一元素，就将head赋值为head指向的next元素,再把原先的head的next指针指向null，以便垃圾回收机制会回收这个元素
-        // console.log('head======', this.head);
         this.head = this.head.next;
         front.next = null;
         if(this.head == null) {
@@ -97,16 +95,16 @@ class LinkedListQueue<T> implements ILinkedListQueue<T> {
 
 }
 
-const linkedListQueue: LinkedListQueue<number> = new LinkedListQueue();
+// const linkedListQueue: LinkedListQueue<number> = new LinkedListQueue();
 
-for(let i:number = 0; i < 10; i++) {
-    linkedListQueue.enqueue(i);
-    // console.log('front',linkedListQueue.toString());
-    if (i % 3 === 2) {
-        linkedListQueue.dequeue();
-        // console.log('front',linkedListQueue.toString())
-    }
+// for(let i:number = 0; i < 10; i++) {
+//     linkedListQueue.enqueue(i);
+//     // console.log('front',linkedListQueue.toString());
+//     if (i % 3 === 2) {
+//         linkedListQueue.dequeue();
+//         // console.log('front',linkedListQueue.toString())
+//     }
 
-}
+// }
 
 export default LinkedListQueue
