@@ -1,7 +1,7 @@
 /*
  * @Describtion: 最大二叉堆实现
  * @Date: 2020-01-12 22:05:13
- * @LastEditTime : 2020-01-13 23:28:46
+ * @LastEditTime : 2020-01-14 11:05:04
  */
 
 /**
@@ -68,18 +68,98 @@ class MaxHeap<E> {
         [this.data[parent], this.data[index]] = [this.data[index], this.data[parent]];
     }
 
+    /**
+     * @description: 获取最大的元素，对于二叉堆来说最大元素就是数组的第一个元素
+     */
+    findMax(): E {
+        if (this.data.length === 0) {
+            throw new Error('array is empty');
+        }
+        return this.data[0];
+    }
+
+    /**
+     * @description: 提取二叉堆中的最大值
+     * 从二叉堆中提取出最大值，思路是：先将第一个元素和最后一个元素交换位置，对第一个元素执行一次下沉操作，然后删除最后一个元素
+     */
+    extractMax(): E {
+        const ret: E = this.findMax();
+        this.swap(0, this.data.length - 1);
+        this.data.pop();
+        this.siftDown(0);
+        return ret;
+    }
+
+    /**
+     * @description: 元素下沉：思路和上浮一样，不断用根节点和叶子节点上下比较，大的元素往上交换，小的元素往下交换
+     */
+
+    siftDown(index: number): void {
+        // 循环遍历，终止条件是当左子树的节点索引越界以后停止，因为左子树索引如果越界那么右子树肯定也越界
+        while (this.leftChild(index) < this.data.length) {
+            let leftIndex = this.leftChild(index);
+            const rightChild = this.rightChild(index);
+            if (leftIndex + 1 < this.data.length && this.data[leftIndex] < this.data[rightChild]) {
+                leftIndex++;
+            }
+
+            if (this.data[leftIndex] <= this.data[index]) {
+                break;
+            }
+
+            this.swap(index, leftIndex);
+            index = leftIndex;
+        }
+    }
+
     toString() {
         console.log(this.data);
     }
 }
 
-
 const maxHeap: MaxHeap<number> = new MaxHeap<number>();
 
-for(let i = 0; i < 1000; i++) {
+// for (let i = 0; i < 1000; i++) {
+//     maxHeap.add(i);
+// }
+
+// maxHeap.toString();
+
+// int n = 1000000;
+
+// MaxHeap<Integer> maxHeap = new MaxHeap<>();
+// Random random = new Random();
+// for(int i = 0 ; i < n ; i ++)
+//     maxHeap.add(random.nextInt(Integer.MAX_VALUE));
+
+// int[] arr = new int[n];
+// for(int i = 0 ; i < n ; i ++)
+//     arr[i] = maxHeap.extractMax();
+
+// for(int i = 1 ; i < n ; i ++)
+//     if(arr[i-1] < arr[i])
+//         throw new IllegalArgumentException("Error");
+
+// System.out.println("Test MaxHeap completed.");
+
+
+const n = 1000000;
+
+for(let i = 0; i < n; i++) {
     maxHeap.add(i);
 }
 
-maxHeap.toString()
+const arrs = [];
+for(let i = 0; i < n; i++) {
+    arrs[i] = maxHeap.extractMax();
+}
+
+for(let i = 1; i < n; i++) {
+    if(arrs[i - 1] < arrs[i]) {
+        throw new Error('Error');
+    }
+}
+
+console.log("Test MaxHEap completed");
 
 
