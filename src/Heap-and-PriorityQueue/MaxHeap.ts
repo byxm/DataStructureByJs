@@ -1,7 +1,7 @@
 /*
  * @Describtion: 最大二叉堆实现
  * @Date: 2020-01-12 22:05:13
- * @LastEditTime : 2020-01-14 11:05:04
+ * @LastEditTime : 2020-01-15 10:07:18
  */
 
 /**
@@ -11,8 +11,14 @@
 class MaxHeap<E> {
     private data: Array<E>;
 
-    constructor() {
+    constructor(arr?: Array<E>) {
         this.data = new Array<E>();
+        if(arr) {
+            this.data = arr;
+            for(let i = this.parent(arr.length - 1); i>=0;i--) {
+                this.siftDown(i);
+            }
+        }
     }
 
     size(): number {
