@@ -1,22 +1,14 @@
 /*
- * @Describtion: 最大二叉堆实现
+ * @Describtion: 最小二叉堆实现,只需要将最大二叉堆的比较条件换一下即可
  * @Date: 2020-01-12 22:05:13
- * @LastEditTime : 2020-01-19 23:23:14
+ * @LastEditTime : 2020-01-17 09:03:18
  */
 
-/**
- * @description: 最大二叉堆为堆的一种，基于二叉树实现，实现方式是一棵满二叉树，即所有节点从左往右依次按照层级排列
- * 直到排完为止。所以根节点和左右子节点之间有索引规律，这个索引是以完全二叉树的形式排列而成的数组，使用数组的方式来描述它
- */
-export default class MaxHeap<E> {
+
+export default class MinHeap<E> {
     private data: Array<E>;
     constructor(arr?:Array<E>) {
         this.data = new Array<E>();
-        /**
-         * Heapify操作,将任意一个数组转换成最大二叉堆，这里有一篇文章 https://www.geeksforgeeks.org/building-heap-from-array/
-         * 思路就是：先找到这个数组最后一个叶子节点的父节点然后依次执行下沉操作，每次索引减1，这样做的目的就是为了过滤掉所有的叶子节点的下沉操作
-         * 这样就可以降低直接对每个元素进行下沉操作的时间复杂度，复杂度为O(n)
-         *  */ 
         if(arr) {
             this.data = arr;
             for(let i = this.parent(arr.length - 1); i >= 0; i--) {
@@ -67,7 +59,7 @@ export default class MaxHeap<E> {
     }
 
     siftUp(index: number): void {
-        while (index > 0 && this.data[this.parent(index)] < this.data[index]) {
+        while (index > 0 && this.data[this.parent(index)] > this.data[index]) {
             this.swap(this.parent(index), index);
             index = this.parent(index);
         }
@@ -81,7 +73,7 @@ export default class MaxHeap<E> {
     /**
      * @description: 获取最大的元素，对于二叉堆来说最大元素就是数组的第一个元素
      */
-    findMax(): E {
+    findMin(): E {
         if (this.data.length === 0) {
             throw new Error('array is empty');
         }
@@ -92,8 +84,8 @@ export default class MaxHeap<E> {
      * @description: 提取二叉堆中的最大值
      * 从二叉堆中提取出最大值，思路是：先将第一个元素和最后一个元素交换位置，对第一个元素执行一次下沉操作，然后删除最后一个元素
      */
-    extractMax(): E {
-        const ret: E = this.findMax();
+    extractMin(): E {
+        const ret: E = this.findMin();
         this.swap(0, this.data.length - 1);
         this.data.pop();
         this.siftDown(0);
@@ -109,11 +101,11 @@ export default class MaxHeap<E> {
         while (this.leftChild(index) < this.data.length) {
             let leftIndex = this.leftChild(index);
             const rightChild = this.rightChild(index);
-            if (leftIndex + 1 < this.data.length && this.data[leftIndex] < this.data[rightChild]) {
+            if (leftIndex + 1 < this.data.length && this.data[leftIndex] > this.data[rightChild]) {
                 leftIndex++;
             }
 
-            if (this.data[leftIndex] <= this.data[index]) {
+            if (this.data[leftIndex] >= this.data[index]) {
                 break;
             }
 
@@ -123,11 +115,11 @@ export default class MaxHeap<E> {
     }
 
     /**
-     * @description: 取出堆中的最大元素并替换成元素e
+     * @description: 取出堆中的最小元素并替换成元素e
      * 思路是：先取出最大的元素，然后用元素e替换最大值的位置，然后在执行一次下沉操作
      */
     replace(e: E): E {
-        const ret: E = this.findMax();
+        const ret: E = this.findMin();
         this.data[0] = e;
         this.siftDown(0);
         return ret;
@@ -138,50 +130,22 @@ export default class MaxHeap<E> {
     }
 }
 
-const maxHeap: MaxHeap<number> = new MaxHeap<number>();
-
-// for (let i = 0; i < 1000; i++) {
-//     maxHeap.add(i);
-// }
-
-// maxHeap.toString();
-
-// int n = 1000000;
-
-// MaxHeap<Integer> maxHeap = new MaxHeap<>();
-// Random random = new Random();
-// for(int i = 0 ; i < n ; i ++)
-//     maxHeap.add(random.nextInt(Integer.MAX_VALUE));
-
-// int[] arr = new int[n];
-// for(int i = 0 ; i < n ; i ++)
-//     arr[i] = maxHeap.extractMax();
-
-// for(int i = 1 ; i < n ; i ++)
-//     if(arr[i-1] < arr[i])
-//         throw new IllegalArgumentException("Error");
-
-// System.out.println("Test MaxHeap completed.");
+const minHeap: MinHeap<number> = new MinHeap<number>();
 
 
-
-/**
- * 这里第一个使用js完成的二叉堆测试用例，整个元素添加加上上浮操作时间复杂度为O(nlogn),在这里一共用时5s，我不知道这个是不是js编程语言的原因
- * 使用java只需几毫秒，然后我用node运行这段代码也只需要3mm,说明是javascript解释器的问题。浏览器的解释器和node的解释器在性能上有差异
- */
 const n = 1000000;
 
 for(let i = 0; i < n; i++) {
-    maxHeap.add(i);
+    minHeap.add(i);
 }
 
 const arrs = [];
 for(let i = 0; i < n; i++) {
-    arrs[i] = maxHeap.extractMax();
+    arrs[i] = minHeap.extractMin();
 }
 
 for(let i = 1; i < n; i++) {
-    if(arrs[i - 1] < arrs[i]) {
+    if(arrs[i - 1] > arrs[i]) {
         throw new Error('Error');
     }
 }
