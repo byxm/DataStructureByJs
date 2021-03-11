@@ -162,7 +162,7 @@ var linkedList = new LinkedList();
 for (var i = 0; i < 10; i++) {
     linkedList.addFirst(i);
 }
-console.log(linkedList.toString());
+console.log('====', linkedList);
 linkedList.add(2, 666);
 linkedList.add(8, 888);
 console.log(linkedList.toString());
